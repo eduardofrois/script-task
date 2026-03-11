@@ -1,1 +1,32 @@
-Exemplo de dmd
+# Correção no PDF: Ordenação do Roteiro e Ajuste nas Tabelas de Resposta
+
+## Projeto / Módulo
+Monitoramento / Módulo Monitoramento Gerador de PDF
+
+## História de Usuário (User Story)
+**Como** usuário do sistema e emissor de documentos,
+**Eu quero** que as perguntas do "Roteiro do Monitoramento" sigam a ordem numérica sequencial correta e que as grades de marcação (tabelas) estejam bem formatadas,
+**Para que** a leitura do relatório seja lógica, profissional e facilite a conferência dos dados registrados.
+
+---
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Ordenação Numérica do Roteiro
+* **Dado que** o sistema gera a seção "Roteiro do Monitoramento" no PDF,
+* **Quando** os itens forem listados,
+* **Então** eles devem obrigatoriamente seguir a ordem numérica crescente correta (1, 2, 3, 4, 5, 6, etc.).
+* **E** não devem aparecer fora de ordem como ocorre atualmente (ex: 2, 6, 7, 9, 5, 10...).
+
+### Critério 2: Ajuste nas Grades de Marcação (Tabelas)
+* **Dado que** algumas perguntas exigem uma grade de respostas (como a tabela de "Equipamentos operantes" ou "Especialidades disponíveis"),
+* **Quando** essas tabelas forem desenhadas no PDF,
+* **Então** elas devem apresentar um layout devidamente ajustado (alinhamento centralizado das marcações "X", larguras proporcionais para as colunas e bordas bem definidas).
+* **E** não devem apresentar quebras visuais ou falta de padronização em relação ao restante do documento.
+
+---
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Conforme capturas de tela, a ordenação das perguntas no bloco de Roteiro está bagunçada (2, 6, 7, 9, 5...). Além disso, as tabelas de "SIM / NÃO / NÃO SE APLICA" precisam de refinamento visual no template.
+* **Backend / Payload (Ordenação):** É muito provável que a consulta ao banco de dados que retorna as respostas do roteiro não possua um `ORDER BY numero_pergunta ASC`. O sistema deve estar retornando pela ordem de inserção (ID) ou de atualização. Ajustar a query ou aplicar um `sort()` no payload antes de enviar para a biblioteca geradora de PDF.
+* **Frontend / Gerador de PDF (Grades):** Revisar as propriedades da tabela no gerador (ex: pdfmake, puppeteer, etc.). Ajustar as larguras das colunas (`widths`), como por exemplo dar

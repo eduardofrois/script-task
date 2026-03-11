@@ -101,7 +101,7 @@ Issue 1: https://gitlab.level33lab.cloud/web/iubaam-web/-/issues/123
 
 ### 3. Várias demandas de uma vez
 
-Você pode colocar **duas ou mais demandas** no mesmo `dmd.txt`. Separe cada demanda com uma linha contendo apenas **`---`** (três hífens). O script cria uma issue para cada bloco, no mesmo projeto e com as mesmas labels, e exibe o link de todas.
+Você pode colocar **duas ou mais demandas** no mesmo `dmd.txt`. Separe cada demanda com uma linha contendo apenas **`----`** (quatro hífens). O script cria uma issue para cada bloco, no mesmo projeto e com as mesmas labels, e exibe o link de todas.
 
 Exemplo de `dmd.txt` com duas demandas:
 
@@ -111,7 +111,7 @@ Exemplo de `dmd.txt` com duas demandas:
 [Nome do Projeto] - Módulo X
 ## História de Usuário
 ...
----
+----
 # Título da segunda demanda
 ## Projeto / Módulo
 [Nome do Projeto] - Módulo Y
@@ -144,4 +144,4 @@ Após o refinamento no Cursor, o `dmd.txt` deve ter:
 
 O script usa a primeira linha de cada bloco como título da issue e o restante como descrição. O projeto da issue é o que você escolhe na lista exibida no terminal. Na seção **## Projeto / Módulo**, use **`[Nome do Projeto]`** como placeholder; o script substitui pelo nome do projeto selecionado para que o card no GitLab exiba o nome correto.
 
-**Várias demandas:** separe cada demanda com uma linha contendo apenas `---` (três hífens). O script criará uma issue por bloco e exibirá o link de cada uma.
+**Várias demandas:** separe cada demanda com uma linha contendo apenas `----` (quatro hífens). O script criará uma issue por bloco e exibirá o link de cada uma.

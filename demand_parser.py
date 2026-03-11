@@ -15,7 +15,7 @@ def split_demands(text: str) -> list[str]:
     blocks: list[str] = []
     current: list[str] = []
     for line in raw.split("\n"):
-        if line.strip() == "---":
+        if line.strip() == "----":
             if current:
                 blocks.append("\n".join(current).strip())
                 current = []
