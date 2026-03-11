@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 from dotenv import load_dotenv
 
-from demand_parser import parse_demand
+from demand_parser import parse_demand, split_demands
 from gitlab_client import create_issue, get_project_path_from_url
 
 
@@ -122,8 +122,12 @@ def main() -> None:
         print(f"Erro: arquivo {demand_path} está vazio.")
         sys.exit(1)
 
-    print(f"Lendo demanda de {demand_path}...")
-    parsed = parse_demand(demand_content)
+    blocks = split_demands(demand_content)
+    if not blocks:
+        print(f"Erro: nenhuma demanda encontrada em {demand_path}.")
+        sys.exit(1)
+
+    print(f"Lendo {len(blocks)} demanda(s) de {demand_path}...")
 
     labels_path = args.labels_config
     allowed_labels = load_allowed_labels(labels_path)
@@ -132,16 +136,22 @@ def main() -> None:
         if LABEL_DEFAULT_STATUS not in selected_labels:
             selected_labels.append(LABEL_DEFAULT_STATUS)
 
+    issue_urls: list[str] = []
     try:
-        issue_url = create_issue(
-            base_url=gitlab_url.rstrip("/"),
-            private_token=gitlab_token,
-            project_identifier=project_path,
-            title=parsed["title"],
-            description=parsed["description"],
-            labels=selected_labels if selected_labels else None,
-        )
-        print(f"Issue criada: {issue_url}")
+        for i, block in enumerate(blocks, 1):
+            parsed = parse_demand(block)
+            description = parsed["description"].replace("[Nome do Projeto]", project_name)
+            issue_url = create_issue(
+                base_url=gitlab_url.rstrip("/"),
+                private_token=gitlab_token,
+                project_identifier=project_path,
+                title=parsed["title"],
+                description=description,
+                labels=selected_labels if selected_labels else None,
+            )
+            issue_urls.append(issue_url)
+        for i, url in enumerate(issue_urls, 1):
+            print(f"Issue {i}: {url}")
     except Exception as e:
         print(f"Erro ao criar issue no GitLab: {e}")
         sys.exit(1)

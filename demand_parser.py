@@ -8,6 +8,24 @@ class ParsedDemand(TypedDict):
     labels: list[str]
 
 
+def split_demands(text: str) -> list[str]:
+    raw = text.replace("\r\n", "\n").replace("\r", "\n").strip()
+    if not raw:
+        return []
+    blocks: list[str] = []
+    current: list[str] = []
+    for line in raw.split("\n"):
+        if line.strip() == "---":
+            if current:
+                blocks.append("\n".join(current).strip())
+                current = []
+        else:
+            current.append(line)
+    if current:
+        blocks.append("\n".join(current).strip())
+    return blocks
+
+
 def parse_demand(text: str) -> ParsedDemand:
     raw = text.strip()
     if not raw:

@@ -1,32 +1,613 @@
-Tabela responsiva no módulo OS
+# Cadastro de infrator – campos obrigatórios (CPF/CNPJ, Razão Social, CEP, etc.)
 
 ## Projeto / Módulo
-[Nome do Projeto] - Módulo OS
+[Nome do Projeto] - Gestão de Autos de Infração
 
 ## História de Usuário (User Story)
-**Como** usuário do sistema,
-**Eu quero** que a tabela do módulo OS seja responsiva,
-**Para que** eu consiga visualizar e utilizar os dados em diferentes tamanhos de tela (mobile, tablet, desktop).
-
----
+**Como** usuário do módulo de Gestão de Autos de Infração,
+**Eu quero** que o modal de cadastro de infrator (quando não tem infrator) exija os campos obrigatórios corretos,
+**Para que** os dados do infrator fiquem consistentes e completos para uso no sistema.
 
 ## Critérios de Aceite (Acceptance Criteria)
 
-### Critério 1: Tabela responsiva em diferentes viewports
-* **Dado que** estou no módulo OS e a tabela está sendo exibida,
-* **Quando** redimensiono a janela ou acesso em dispositivo com tela menor (ex.: celular, tablet),
-* **Então** a tabela deve se adaptar ao espaço disponível (scroll horizontal, quebra de colunas ou layout alternativo).
-* **E** o conteúdo deve permanecer legível e utilizável sem perda de informação.
-
-### Critério 2: Comportamento em telas grandes
-* **Dado que** estou em uma tela grande (desktop),
-* **Quando** a tabela é exibida,
-* **Então** a tabela deve utilizar o espaço de forma adequada, sem quebrar o layout da página.
-
----
+### Critério 1: Campos obrigatórios no cadastro de infrator
+* **Dado que** estou no modal de visualização de um auto e não há infrator cadastrado (cadastro de infrator),
+* **Quando** preencho o formulário de cadastro de infrator,
+* **Então** os campos CPF/CNPJ, Razão Social, CEP, Logradouro, Cidade, Bairro, Telefone e E-mail devem ser obrigatórios e validados antes do envio.
 
 ## Notas Técnicas para a Equipe de Dev
-* **Contexto / Evidência:** Módulo OS; tabela atual provavelmente com largura fixa ou sem tratamento responsivo.
-* **Backend / Banco de Dados:** Nenhuma alteração esperada; apenas exibição dos dados existentes.
-* **Frontend / UI:** Implementar tabela responsiva (ex.: overflow horizontal em container, colapsar colunas em mobile, ou uso de componente de tabela responsiva já existente no projeto).
-* **Atenção (Opcional):** Garantir que ordenação, filtros e ações da tabela continuem funcionando após o ajuste responsivo.
+* **Contexto / Evidência:** Modal de visualização – fluxo de cadastro de infrator quando não há infrator.
+* **Backend / Banco de Dados:** Garantir validação dos campos obrigatórios na API de criação/atualização de infrator.
+* **Frontend / UI:** Marcar campos como required e exibir mensagens de validação.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Alterar label do campo Razão Social para "Nome/Razão Social"
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do sistema,
+**Eu quero** que o campo de Razão Social no cadastro de infrator seja exibido como "Nome/Razão Social",
+**Para que** fique claro que aceita tanto nome quanto razão social.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Label do campo
+* **Dado que** estou no modal de cadastro de infrator (quando não tem infrator),
+* **Quando** visualizo o formulário,
+* **Então** o campo que hoje se chama "Razão Social" deve exibir o label "Nome/Razão Social".
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Modal de visualização – cadastro de infrator.
+* **Frontend / UI:** Alterar apenas o label do campo no formulário.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Corrigir máscara dos campos RG e Telefone no cadastro de infrator
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do sistema,
+**Eu quero** que os campos RG e Telefone no cadastro de infrator tenham máscara de entrada correta,
+**Para que** os dados sejam armazenados e exibidos no formato esperado.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Máscara do RG
+* **Dado que** estou no modal de cadastro de infrator,
+* **Quando** preencho o campo RG,
+* **Então** deve ser aplicada máscara adequada (ex.: XX.XXX.XXX-X ou conforme regra do negócio).
+
+### Critério 2: Máscara do Telefone
+* **Dado que** estou no modal de cadastro de infrator,
+* **Quando** preencho o campo Telefone,
+* **Então** deve ser aplicada máscara de telefone (ex.: (XX) XXXXX-XXXX ou (XX) XXXX-XXXX).
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Modal de visualização – cadastro de infrator.
+* **Frontend / UI:** Ajustar máscaras nos componentes de input de RG e Telefone.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Adicionar campo de motivo obrigatório ao suspender um auto
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Gestão de Autos de Infração,
+**Eu quero** informar um motivo ao suspender um auto,
+**Para que** fique registrado o motivo da suspensão para auditoria e histórico.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Campo motivo obrigatório
+* **Dado que** estou no modal de visualização de um auto e aciono a ação de suspender,
+* **Quando** o sistema exibe o fluxo de suspensão,
+* **Então** deve haver um campo de motivo (obrigatório) que precise ser preenchido para confirmar a suspensão.
+* **E** a suspensão só deve ser concluída se o motivo for informado.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Modal de visualização – ação de suspender auto.
+* **Backend / Banco de Dados:** Persistir o motivo da suspensão (campo ou tabela de histórico).
+* **Frontend / UI:** Incluir input de texto/textarea no fluxo de suspensão e validar preenchimento.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Adicionar trigger ao suspender um auto
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do sistema,
+**Eu quero** que ao suspender um auto seja executada a lógica de negócio (trigger) definida,
+**Para que** notificações, integrações ou regras associadas à suspensão sejam disparadas corretamente.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Execução do trigger
+* **Dado que** um auto é suspenso pelo usuário (com motivo informado),
+* **Quando** a suspensão é confirmada,
+* **Então** o trigger configurado para o evento "suspender auto" deve ser executado (ex.: envio de e-mail, atualização em outro sistema, registro em log).
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Fluxo de suspensão de auto no modal de visualização.
+* **Backend / Banco de Dados:** Implementar ou configurar trigger (job, webhook ou evento) ao alterar status do auto para suspenso.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Opção de reabrir auto na coluna de ações (auto suspenso)
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Gestão de Autos de Infração,
+**Eu quero** ter na coluna de ações a opção de reabrir um auto que está suspenso,
+**Para que** seja possível reativar o auto quando for o caso.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Ação Reabrir
+* **Dado que** estou na listagem de autos e o auto está com status suspenso,
+* **Quando** visualizo as ações disponíveis na coluna de ações,
+* **Então** deve existir a opção "Reabrir" (ou equivalente) para permitir reabrir o auto.
+* **E** ao reabrir, o status do auto deve ser atualizado conforme regra de negócio.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Coluna de ações na listagem/gestão de autos de infração.
+* **Backend / Banco de Dados:** Endpoint ou regra para alterar status do auto de "suspenso" para "reaberto"/ativo.
+* **Frontend / UI:** Incluir botão/link "Reabrir" na coluna de ações quando o auto estiver suspenso.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Opção de histórico de atualizações na coluna de ações
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Gestão de Autos de Infração,
+**Eu quero** acessar o histórico de atualizações do auto pela coluna de ações,
+**Para que** eu possa consultar alterações e auditoria do auto.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Ação Histórico
+* **Dado que** estou na listagem de autos de infração,
+* **Quando** aciono a opção de histórico de atualizações na coluna de ações,
+* **Então** o sistema deve exibir o histórico de atualizações daquele auto (data, usuário, alterações, etc.).
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Coluna de ações na gestão de autos.
+* **Backend / Banco de Dados:** Endpoint ou query que retorne o histórico de alterações do auto (auditoria).
+* **Frontend / UI:** Nova ação na coluna e modal ou tela de histórico.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Ocultar botão Editar quando o auto está suspenso
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do sistema,
+**Eu quero** que o botão de editar não seja exibido quando o auto está suspenso,
+**Para que** não seja possível editar um auto nesse estado.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Botão Editar condicional
+* **Dado que** estou visualizando um auto com status suspenso,
+* **Quando** a tela ou modal de visualização é exibida,
+* **Então** o botão "Editar" não deve ser exibido (ou deve estar oculto/desabilitado).
+* **E** para autos não suspensos, o botão Editar deve continuar visível.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Modal de visualização de auto – coluna de ações ou barra de ações.
+* **Frontend / UI:** Condicionar a exibição do botão Editar ao status do auto (ocultar quando suspenso).
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Modal Visualizar – aba PDF com renderização e download
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Gestão de Autos de Infração,
+**Eu quero** no modal de visualizar ter uma aba PDF que renderize o PDF do auto e permita download,
+**Para que** eu possa visualizar e baixar o documento do auto sem sair da tela.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Aba PDF
+* **Dado que** estou no modal de visualizar um auto,
+* **Quando** acesso a aba "PDF",
+* **Então** o PDF do auto deve ser carregado e exibido (renderizado) no próprio modal.
+
+### Critério 2: Download
+* **Dado que** estou na aba PDF do modal de visualizar,
+* **Quando** aciono a opção de download,
+* **Então** o arquivo PDF do auto deve ser baixado no dispositivo do usuário.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Modal de visualização – nova aba PDF.
+* **Backend / Banco de Dados:** Endpoint ou URL que forneça o PDF do auto, se ainda não existir.
+* **Frontend / UI:** Aba "PDF" no modal, uso de visualizador de PDF (iframe ou lib) e botão de download.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Adicionar coluna "Processo SEI" na gestão de autos
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Gestão de Autos de Infração,
+**Eu quero** visualizar na listagem a coluna "Processo SEI",
+**Para que** eu identifique rapidamente o número do processo SEI associado a cada auto.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Coluna Processo SEI
+* **Dado que** estou na listagem/tabela de autos de infração,
+* **Quando** visualizo as colunas,
+* **Então** deve existir a coluna "Processo SEI" exibindo o número do processo SEI quando houver.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Tabela/listagem do módulo Gestão de Autos de Infração.
+* **Backend / Banco de Dados:** Garantir que o número do processo SEI seja retornado na listagem (se já existir no modelo).
+* **Frontend / UI:** Incluir coluna "Processo SEI" na tabela.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Modal Editar – botões "Gerar" (Processo SEI) e "Lançar" (Sislanca)
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Gestão de Autos de Infração,
+**Eu quero** no modal de editar ter botões "Gerar" no campo Processo SEI e "Lançar" no campo Sislanca,
+**Para que** eu possa acionar as ações de gerar processo e lançar no Sislanca diretamente na tela.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Botão Gerar (Processo SEI)
+* **Dado que** estou no modal de editar um auto,
+* **Quando** visualizo o campo Processo SEI (Gerar),
+* **Então** deve haver um botão "Gerar" que dispare a geração do processo SEI conforme regra existente.
+
+### Critério 2: Botão Lançar (Sislanca)
+* **Dado que** estou no modal de editar um auto,
+* **Quando** visualizo o campo Sislanca (Lançar),
+* **Então** deve haver um botão "Lançar" que dispare o lançamento no Sislanca conforme regra existente.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Modal de editar – campos Processo SEI e Sislanca.
+* **Frontend / UI:** Incluir botões "Gerar" e "Lançar" ao lado dos respectivos campos; integrar com APIs/lógica existente.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Desabilitar botão "Lançar" (Sislanca) quando não houver número do Processo SEI
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do sistema,
+**Eu quero** que o botão "Lançar" do Sislanca fique desabilitado (em cinza) quando não houver número do Processo SEI,
+**Para que** o lançamento no Sislanca só seja permitido quando o processo SEI existir.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Botão Lançar desabilitado
+* **Dado que** estou no modal de editar e não há número do Processo SEI preenchido,
+* **Quando** visualizo o campo/botão "Lançar" do Sislanca,
+* **Então** o botão "Lançar" deve estar em cinza e desabilitado (não clicável).
+* **E** quando o Processo SEI for preenchido/gerado, o botão "Lançar" deve ser habilitado.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Modal de editar – dependência entre Processo SEI e Sislanca.
+* **Frontend / UI:** Condicionar o estado disabled do botão "Lançar" à existência do número do Processo SEI.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Automação: ler arquivo TXT do Sislanca (retorno bancário) e preencher dados financeiros
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Gestão de Autos de Infração,
+**Eu quero** que o sistema leia o arquivo TXT enviado do Sislanca (retorno bancário, salvo no servidor) e preencha automaticamente a numeração e dados no sistema (financeiro),
+**Para que** não seja necessário preencher manualmente as informações vindas do retorno bancário.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Upload e processamento do TXT
+* **Dado que** existe o botão/fluxo de retorno bancário do Sislanca que salva um arquivo TXT no servidor,
+* **Quando** o sistema processa esse arquivo,
+* **Então** deve ler o arquivo TXT, localizar a numeração e demais dados relevantes e preencher os dados no módulo financeiro do sistema.
+
+### Critério 2: Dados preenchidos
+* **Dado que** o arquivo TXT foi processado com sucesso,
+* **Quando** o usuário acessa a tela de edição ou o módulo financeiro do auto,
+* **Então** os campos correspondentes à numeração e dados do retorno devem estar preenchidos conforme o arquivo.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Modal de editar – número do Sislanca; arquivo TXT do retorno bancário.
+* **Backend / Banco de Dados:** Job ou endpoint que leia o TXT do servidor, parse o conteúdo e atualize os dados financeiros/do auto.
+* **Frontend / UI:** Pode ser necessário botão ou fluxo para disparar a leitura/processamento.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Criar tabela do Financeiro (consultar com Daniel – FROIS)
+
+## Projeto / Módulo
+[Nome do Projeto] - Financeiro
+
+## História de Usuário (User Story)
+**Como** desenvolvedor/equipe,
+**Eu quero** criar a tabela do financeiro alinhada com o Daniel (FROIS),
+**Para que** o módulo financeiro tenha a estrutura de dados correta para suportar as funcionalidades.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Definição e criação da tabela
+* **Dado que** foi feita a consulta com o Daniel sobre a estrutura (FROIS),
+* **Quando** a tabela do financeiro for implementada,
+* **Então** deve refletir os campos e regras combinados nessa consulta.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Tabela do financeiro – alinhamento com Daniel (FROIS).
+* **Backend / Banco de Dados:** Criar tabela(s) do financeiro conforme especificação definida na consulta.
+* **Atenção (Opcional):** Consultar a tabela com o Daniel (FROIS) antes de implementar. Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Adicionar checkbox "Autos não enviados ao SEI"
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Gestão de Autos de Infração,
+**Eu quero** filtrar a listagem por autos não enviados ao SEI por meio de um checkbox,
+**Para que** eu localize rapidamente os autos que ainda não foram enviados ao SEI.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Checkbox na listagem
+* **Dado que** estou na listagem de autos de infração,
+* **Quando** marco o checkbox "Autos não enviados ao SEI",
+* **Então** a listagem deve exibir apenas os autos que não foram enviados ao SEI.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Listagem/filtros do módulo Gestão de Autos de Infração.
+* **Backend / Banco de Dados:** Filtro na query pela flag ou status de envio ao SEI.
+* **Frontend / UI:** Incluir checkbox no painel de filtros.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Alterar nome do checkbox para "Autos não enviados ao Sislanca"
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do sistema,
+**Eu quero** que o checkbox de autos não enviados exiba o texto "Autos não enviados ao Sislanca" em vez de "Autos não enviados ao SEI" (ou nome anterior),
+**Para que** a nomenclatura reflita corretamente o filtro (Sislanca).
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Label do checkbox
+* **Dado que** estou na tela de gestão de autos de infração,
+* **Quando** visualizo o checkbox de autos não enviados,
+* **Então** o label deve ser "Autos não enviados ao Sislanca" (ou equivalente acordado).
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Checkbox na listagem/filtros.
+* **Frontend / UI:** Alterar apenas o texto do label do checkbox.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Dashboard do módulo – filtros não aplicados corretamente
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Autos de Infração
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Gestão de Autos de Infração,
+**Eu quero** que o dashboard filtre os dados de acordo com os filtros selecionados,
+**Para que** os gráficos e indicadores reflitam corretamente o escopo escolhido.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Filtros aplicados no dashboard
+* **Dado que** estou no dashboard do módulo de Gestão de Autos de Infração,
+* **Quando** seleciono filtros (período, status, etc.),
+* **Então** os dados exibidos no dashboard (gráficos, totais, listas) devem ser recalculados e exibidos conforme os filtros aplicados.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Dashboard do módulo – dados não estão sendo filtrados.
+* **Backend / Banco de Dados:** Garantir que as queries do dashboard recebam e apliquem os parâmetros de filtro.
+* **Frontend / UI:** Garantir que os filtros do dashboard sejam enviados nas requisições e que o estado dos filtros seja refletido nos dados.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Correspondência – lista deve trazer todos os autos (não só autos de infração)
+
+## Projeto / Módulo
+[Nome do Projeto] - Correspondência
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Correspondência,
+**Eu quero** que a lista exiba todos os autos, e não apenas autos de infração,
+**Para que** eu possa gerenciar a correspondência de todos os tipos de auto.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Listagem completa
+* **Dado que** estou no módulo de Correspondência,
+* **Quando** acesso a lista de autos,
+* **Então** a lista deve trazer todos os autos (incluindo os que não são apenas de infração), conforme permissões e regras do módulo.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Módulo Correspondência – lista atualmente restrita a autos de infração.
+* **Backend / Banco de Dados:** Ajustar query/listagem para incluir todos os tipos de auto (remover ou ampliar filtro de "autos de infração").
+* **Frontend / UI:** Garantir que a listagem exiba os dados retornados.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Correspondência – Visualizar: retirar obrigatoriedade de anexar arquivo
+
+## Projeto / Módulo
+[Nome do Projeto] - Correspondência
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Correspondência,
+**Eu quero** poder visualizar sem ser obrigado a anexar um arquivo,
+**Para que** a visualização seja possível mesmo quando não há anexo.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Anexo não obrigatório
+* **Dado que** estou na tela/fluxo de visualizar na Correspondência,
+* **Quando** o sistema exige anexo de arquivo para prosseguir,
+* **Então** essa obrigatoriedade deve ser removida; o usuário deve poder visualizar sem anexar arquivo.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Correspondência – fluxo de visualizar.
+* **Frontend / UI:** Remover validação de obrigatoriedade do campo de anexo na visualização (e ajustar backend se a validação estiver na API).
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Correspondência – Checkboxes AR Entregue / AR Não Entregue e comportamento dos campos
+
+## Projeto / Módulo
+[Nome do Projeto] - Correspondência
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Correspondência,
+**Eu quero** marcar se o AR foi entregue ou não e que os campos de Edital e DODF fiquem em readonly quando entregue, e editáveis quando não entregue,
+**Para que** o fluxo reflita corretamente o status da entrega e evite alterações indevidas quando já entregue.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: AR Entregue
+* **Dado que** marco o checkbox "AR Entregue",
+* **Quando** a tela é exibida,
+* **Então** todos os campos de Edital e DODF devem ficar em cinza (readonly), não editáveis.
+
+### Critério 2: AR Não Entregue
+* **Dado que** marco o checkbox "AR Não Entregue",
+* **Quando** a tela é exibida,
+* **Então** os campos de Edital e DODF devem ser editáveis e o usuário deve poder preenchê-los.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Correspondência – fluxo de AR, campos Edital e DODF.
+* **Frontend / UI:** Dois checkboxes "AR Entregue" e "AR Não Entregue"; condicionar readonly dos campos Edital e DODF ao estado "AR Entregue".
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Correspondência – Botão Criar AR abaixo do título "Envio do AR"
+
+## Projeto / Módulo
+[Nome do Projeto] - Correspondência
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Correspondência,
+**Eu quero** que o botão de criar AR fique posicionado abaixo do título "Envio do AR",
+**Para que** a interface fique mais clara e o fluxo mais intuitivo.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Posicionamento do botão
+* **Dado que** estou na tela que contém o título "Envio do AR",
+* **Quando** visualizo a página,
+* **Então** o botão "Criar AR" (ou equivalente) deve estar posicionado abaixo do título "Envio do AR".
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Correspondência – layout da tela de Envio do AR.
+* **Frontend / UI:** Ajustar ordem/posição dos elementos (título "Envio do AR" e botão Criar AR).
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Correspondência – Destacar em amarelo "AR Entregue" quando o AR não for entregue
+
+## Projeto / Módulo
+[Nome do Projeto] - Correspondência
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Correspondência,
+**Eu quero** que quando o AR não for entregue, a indicação "AR Entregue" (em destaque no topo) apareça em amarelo,
+**Para que** chame atenção para o status de não entrega.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Destaque em amarelo
+* **Dado que** o AR não foi entregue,
+* **Quando** a tela é exibida e há o indicador/label "AR Entregue" no topo,
+* **Então** esse elemento deve ser exibido em amarelo (ou com destaque visual equivalente) para indicar que o AR não está entregue.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Correspondência – indicador de status do AR no topo da tela.
+* **Frontend / UI:** Aplicar estilo (cor de fundo ou texto amarelo) ao indicador "AR Entregue" quando o status for "não entregue".
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Correspondência – Alterar ícone de Visualizar para lápis
+
+## Projeto / Módulo
+[Nome do Projeto] - Correspondência
+
+## História de Usuário (User Story)
+**Como** usuário do sistema,
+**Eu quero** que a ação de visualizar na Correspondência use ícone de lápis em vez do ícone atual,
+**Para que** a interface fique alinhada ao padrão desejado.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Ícone da ação Visualizar
+* **Dado que** estou na listagem ou tela do módulo Correspondência,
+* **Quando** visualizo a ação "Visualizar",
+* **Então** o ícone exibido deve ser um lápis (ícone de edição/visualização conforme design).
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Correspondência – coluna de ações ou botão Visualizar.
+* **Frontend / UI:** Trocar o ícone da ação Visualizar para ícone de lápis (usar componente de ícone já existente no projeto).
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Gestão de Contribuinte – Botão para lançar taxas (redirecionar ao módulo de lançamento)
+
+## Projeto / Módulo
+[Nome do Projeto] - Gestão de Contribuinte
+
+## História de Usuário (User Story)
+**Como** usuário do módulo de Gestão de Contribuinte,
+**Eu quero** um botão que me redirecione para o módulo de Lançamento de Taxas,
+**Para que** eu possa lançar taxas relacionadas ao contribuinte de forma rápida.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Botão e redirecionamento
+* **Dado que** estou na tela de Gestão de Contribuinte,
+* **Quando** aciono o botão para lançar taxas,
+* **Então** o sistema deve redirecionar o usuário para o módulo de Lançamento de Taxas (mantendo contexto do contribuinte se aplicável).
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Módulo Gestão de Contribuinte – novo botão.
+* **Frontend / UI:** Adicionar botão "Lançar taxas" (ou similar) que navegue para a rota do módulo de Lançamento de Taxas; passar parâmetros se necessário (ex.: ID do contribuinte).
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
+
+---
+# Corrigir acesso ao site pelo usuário do SISAF
+
+## Projeto / Módulo
+[Nome do Projeto] - Acesso / Autenticação
+
+## História de Usuário (User Story)
+**Como** usuário do SISAF,
+**Eu quero** conseguir acessar o site corretamente,
+**Para que** eu possa utilizar o sistema conforme meu perfil.
+
+## Critérios de Aceite (Acceptance Criteria)
+
+### Critério 1: Acesso permitido
+* **Dado que** sou um usuário do SISAF,
+* **Quando** tento acessar o site,
+* **Então** o sistema deve permitir o acesso (login e navegação) sem bloquear ou exibir erro indevido.
+
+## Notas Técnicas para a Equipe de Dev
+* **Contexto / Evidência:** Usuários do SISAF não conseguem acessar o site corretamente.
+* **Backend / Banco de Dados:** Verificar permissões, roles e regras de autenticação para o perfil SISAF.
+* **Frontend / UI:** Garantir que rotas e componentes não impeçam o acesso para esse perfil.
+* **Atenção (Opcional):** Entrega prevista: 23/03 para reunião em 24/03.
