@@ -8,6 +8,8 @@
 **Eu quero** [ação ou funcionalidade que deve ser desenvolvida],
 **Para que** [valor de negócio, motivo ou problema que será resolvido].
 
+![evidencia](/assets/image.png)
+
 ---
 
 ## Critérios de Aceite (Acceptance Criteria)
