@@ -6,7 +6,7 @@ Script em Python que cria issues no GitLab a partir da(s) demanda(s) em `dmd.md`
 
 1. Você refina o conteúdo de `dmd.md` no Cursor (título, Projeto/Módulo, User Story, Critérios de Aceite, Notas Técnicas).
 2. Você roda **`python main.py`**.
-3. O script lista os projetos do `projects.json` e você **escolhe pelo número**.
+3. O script lista os projetos: se **`GITLAB_GROUP_PATH`** estiver definido no `.env`, os projetos são buscados **via API do GitLab** (grupo informado); caso contrário, usa o `projects.json`. Você **escolhe o projeto pelo número** no terminal.
 4. O script **busca na API do GitLab** os milestones e os membros do projeto; você escolhe **um milestone** (ou Enter para nenhum).
 5. O script lê a(s) demanda(s) de `dmd.md`. Se houver **uma** demanda, você escolhe **um responsável** e as **labels** uma vez. Se houver **duas ou mais**, você escolhe o **responsável** e as **labels por demanda** (cada issue pode ter responsável e labels diferentes).
 6. Uma issue é criada no GitLab para cada demanda, no mesmo projeto, com o milestone (único), o responsável e as labels daquela demanda. O placeholder `[Nome do Projeto]` na descrição é substituído pelo projeto selecionado.
@@ -43,10 +43,11 @@ cp .env.example .env
 |----------|-----------|
 | `GITLAB_URL` | URL base do GitLab (ex: `https://gitlab.level33lab.cloud`) |
 | `GITLAB_PRIVATE_TOKEN` | Token de acesso pessoal do GitLab (criar em Perfil → Access Tokens) |
+| `GITLAB_GROUP_PATH` | (Opcional) Path do grupo no GitLab (ex: `web-sites-react`). Se definido, os projetos são listados via API do grupo em vez de `projects.json`. |
 
 ### Mapeamento de projetos (`projects.json`)
 
-Associa o nome do projeto ao **path do repositório** no GitLab. A URL base fica só no `.env` (`GITLAB_URL`); aqui você informa apenas o path para concatenar. Exemplo:
+Usado **somente quando `GITLAB_GROUP_PATH` não está definido**. Associa o nome do projeto ao **path do repositório** no GitLab. A URL base fica só no `.env` (`GITLAB_URL`); aqui você informa apenas o path para concatenar. Exemplo:
 
 ```json
 {
@@ -75,8 +76,8 @@ As labels precisam existir no projeto no GitLab com os mesmos nomes.
 
 1. **Prepare o ambiente** (uma vez por máquina):
    - Instale as dependências: `pip install -r requirements.txt`
-   - Crie o `.env` com `GITLAB_URL` e `GITLAB_PRIVATE_TOKEN`
-   - Coloque os projetos em `projects.json` e as labels em `labels.json`
+   - Crie o `.env` com `GITLAB_URL` e `GITLAB_PRIVATE_TOKEN`. Para listar projetos do grupo via API (ex.: grupo *Web Sites React*), defina `GITLAB_GROUP_PATH` com o path do grupo (ex.: `web-sites-react`).
+   - Se não usar grupo: coloque os projetos em `projects.json`. Coloque as labels em `labels.json`.
 
 2. **Prepare o arquivo de demandas**:
    - Edite o `dmd.md` (ou outro arquivo) com uma ou mais demandas no formato do escopo (título, Projeto/Módulo, User Story, Critérios de Aceite, Notas Técnicas). Várias demandas devem ser separadas por uma linha só com `----`.
@@ -95,7 +96,7 @@ As labels precisam existir no projeto no GitLab com os mesmos nomes.
    ```
 
 4. **No terminal, responda às perguntas na ordem**:
-   - **Projeto:** digite o número do projeto da lista e Enter.
+   - **Projeto:** será exibida a lista de projetos (do grupo GitLab, se `GITLAB_GROUP_PATH` estiver definido, ou do `projects.json`). Digite o número do projeto e Enter.
    - **Milestone:** será exibida a lista de milestones do projeto; digite o número do milestone desejado ou **Enter para não atribuir** (vale para todas as issues desta execução).
    - **Responsável:**  
      - Se houver **uma** demanda: será exibida a lista de membros; digite o número do responsável ou **Enter para não atribuir**.  

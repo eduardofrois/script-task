@@ -10,6 +10,7 @@ from demand_parser import parse_demand, split_demands
 from gitlab_client import (
     create_issue,
     get_project_path_from_url,
+    list_group_projects,
     list_project_members,
     list_project_milestones,
     replace_local_images_in_description,
@@ -91,6 +92,32 @@ def interactive_select_project(projects_path: str) -> tuple[str, str]:
     project_name = names[idx - 1]
     print(f"  {GREEN}Projeto selecionado: {project_name}{RESET}\n")
     return project_name, config[project_name]
+
+
+def interactive_select_project_from_api(projects: list[dict]) -> tuple[str, str]:
+    if not projects:
+        print(f"{RED}Erro: nenhum projeto encontrado no grupo.{RESET}")
+        sys.exit(1)
+    print(f"\n{BOLD}{BLUE}[ 1 / 4 ] Projeto (grupo GitLab){RESET}")
+    _sep()
+    for i, p in enumerate(projects, 1):
+        name = p.get("name", "")
+        path_ns = p.get("path_with_namespace", "")
+        print(f"  {CYAN}{i:2}.{RESET} {name} {DIM}({path_ns}){RESET}")
+    _sep()
+    raw = _prompt("Número do projeto", f"1 a {len(projects)}")
+    if not raw.isdigit():
+        print(f"{RED}Erro: informe um número válido.{RESET}")
+        sys.exit(1)
+    idx = int(raw)
+    if not 1 <= idx <= len(projects):
+        print(f"{RED}Erro: número inválido.{RESET}")
+        sys.exit(1)
+    chosen = projects[idx - 1]
+    project_name = chosen.get("name", "")
+    project_path = chosen.get("path_with_namespace", "")
+    print(f"  {GREEN}Projeto selecionado: {project_name}{RESET}\n")
+    return project_name, project_path
 
 
 def load_allowed_labels(path: str) -> list[str]:
@@ -212,14 +239,20 @@ def main() -> None:
         print(f"{RED}Erro: GITLAB_URL e GITLAB_PRIVATE_TOKEN devem estar definidos no .env{RESET}")
         sys.exit(1)
 
-    projects_path = args.projects_config
-    if not Path(projects_path).exists():
-        print(f"{RED}Erro: arquivo {projects_path} não encontrado.{RESET}")
-        sys.exit(1)
-
-    project_name, project_path = interactive_select_project(projects_path)
-
     gl = gitlab.Gitlab(gitlab_url.rstrip("/"), private_token=gitlab_token)
+    group_path = (os.getenv("GITLAB_GROUP_PATH") or "").strip()
+    if group_path:
+        projects = list_group_projects(gl, group_path)
+        if not projects:
+            print(f"{RED}Erro: nenhum projeto encontrado no grupo '{group_path}' ou grupo inválido.{RESET}")
+            sys.exit(1)
+        project_name, project_path = interactive_select_project_from_api(projects)
+    else:
+        projects_path = args.projects_config
+        if not Path(projects_path).exists():
+            print(f"{RED}Erro: arquivo {projects_path} não encontrado. Defina GITLAB_GROUP_PATH no .env para listar projetos do grupo via API.{RESET}")
+            sys.exit(1)
+        project_name, project_path = interactive_select_project(projects_path)
     milestones: list[dict] = []
     members: list[dict] = []
     try:

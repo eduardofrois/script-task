@@ -5,6 +5,23 @@ from urllib.parse import urlparse
 import gitlab
 
 
+def list_group_projects(gl: gitlab.Gitlab, group_path: str) -> list[dict]:
+    try:
+        group = gl.groups.get(group_path)
+    except Exception:
+        return []
+    try:
+        projects = group.projects.list(get_all=True)
+    except Exception:
+        return []
+    result: list[dict] = []
+    for p in projects:
+        name = getattr(p, "name", "") or ""
+        path_with_namespace = getattr(p, "path_with_namespace", "") or getattr(p, "path", "")
+        result.append({"name": name, "path_with_namespace": path_with_namespace})
+    return result
+
+
 def get_project_path_from_url(url: str) -> str:
     parsed = urlparse(url)
     path = parsed.path.strip("/")
