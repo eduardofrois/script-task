@@ -21,4 +21,4 @@ wheels/
 .installed.cfg
 *.egg
 .DS_Store
-dmd.txt
+dmd.md
