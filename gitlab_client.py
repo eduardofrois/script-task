@@ -19,6 +19,7 @@ def list_group_projects(gl: gitlab.Gitlab, group_path: str) -> list[dict]:
         name = getattr(p, "name", "") or ""
         path_with_namespace = getattr(p, "path_with_namespace", "") or getattr(p, "path", "")
         result.append({"name": name, "path_with_namespace": path_with_namespace})
+    result.sort(key=lambda x: (x["name"].upper(), x["path_with_namespace"]))
     return result
 
 
@@ -74,6 +75,7 @@ def list_project_members(gl: gitlab.Gitlab, project_identifier: str) -> list[dic
         username = getattr(attrs, "username", getattr(m, "username", ""))
         name = getattr(attrs, "name", getattr(m, "name", ""))
         result.append({"id": uid, "username": username or "", "name": name or ""})
+    result.sort(key=lambda x: ((x["name"] or x["username"]).upper(), x["username"]))
     return result
 
 

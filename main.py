@@ -72,7 +72,7 @@ def resolve_project_path(projects_path: str, project_name: str) -> str:
 
 def interactive_select_project(projects_path: str) -> tuple[str, str]:
     config = load_projects_config(projects_path)
-    names = list(config.keys())
+    names = sorted(config.keys(), key=str.upper)
     if not names:
         print(f"{RED}Erro: nenhum projeto em {projects_path}.{RESET}")
         sys.exit(1)
