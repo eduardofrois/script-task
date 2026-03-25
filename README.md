@@ -4,7 +4,7 @@ Script em Python que cria issues no GitLab a partir da(s) demanda(s) em `dmd.md`
 
 ## O que o script faz
 
-1. Você refina o conteúdo de `dmd.md` no Cursor (título, Projeto/Módulo, User Story, Critérios de Aceite, Notas Técnicas).
+1. Você refina o conteúdo de `dmd.md` no Cursor conforme o padrão de `task-exemple.md` (título, Projeto/Módulo, Resumo, Detalhes Técnicos, Investigação, Requisitos de Implementação, Critérios de Aceite, Cenário de Teste).
 2. Você roda **`python main.py`**.
 3. O script lista os projetos: se **`GITLAB_GROUP_PATH`** estiver definido no `.env`, os projetos são buscados **via API do GitLab** (grupo informado); caso contrário, usa o `projects.json`. Você **escolhe o projeto pelo número** no terminal.
 4. O script **busca na API do GitLab** os milestones e os membros do projeto; você escolhe **um milestone** (ou Enter para nenhum).
@@ -80,7 +80,7 @@ As labels precisam existir no projeto no GitLab com os mesmos nomes.
    - Se não usar grupo: coloque os projetos em `projects.json`. Coloque as labels em `labels.json`.
 
 2. **Prepare o arquivo de demandas**:
-   - Edite o `dmd.md` (ou outro arquivo) com uma ou mais demandas no formato do escopo (título, Projeto/Módulo, User Story, Critérios de Aceite, Notas Técnicas). Várias demandas devem ser separadas por uma linha só com `----`.
+   - Edite o `dmd.md` (ou outro arquivo) com uma ou mais demandas no formato do escopo (alinhado a `task-exemple.md`; veja **Formato da demanda** abaixo). Várias demandas devem ser separadas por uma linha só com `----`.
 
 3. **Execute o script**:
    ```bash
@@ -165,7 +165,7 @@ Assim, cada issue pode ter responsável e labels diferentes (ou Enter para nenhu
 
 ### Refinar a demanda no Cursor (opcional)
 
-Coloque o rascunho em `dmd.md` e peça ao Cursor: *"Refine o conteúdo do dmd.md seguindo o escopo [título, Projeto/Módulo, User Story, Critérios de Aceite, Notas Técnicas]."*
+Coloque o rascunho em `dmd.md` e peça ao Cursor: *"Refine o conteúdo do dmd.md seguindo `task-exemple.md` e o formato da seção **Formato da demanda** do README."*
 
 ### Outras opções
 
@@ -174,12 +174,18 @@ Coloque o rascunho em `dmd.md` e peça ao Cursor: *"Refine o conteúdo do dmd.md
 
 ## Formato da demanda (escopo)
 
-Após o refinamento no Cursor, o `dmd.md` deve ter:
+Após o refinamento no Cursor, o `dmd.md` deve seguir o padrão de `task-exemple.md`, com cabeçalhos em Markdown `##` (facilita leitura no GitLab). Estrutura de cada demanda:
 
 - **Primeira linha:** título da issue (com ou sem `#`).
-- **Demais linhas:** descrição em Markdown com as seções **## Projeto / Módulo**, **## História de Usuário**, **## Critérios de Aceite**, **## Notas Técnicas**.
+- **## Projeto / Módulo** — na linha seguinte, `[Nome do Projeto] - Nome do módulo` (o script substitui `[Nome do Projeto]` pelo projeto escolhido no terminal).
+- **## Resumo** — objetivo, o que alterar/criar/remover e a finalidade para o usuário.
+- **## Detalhes Técnicos** — comportamento técnico, renderização, estados e condicionais (use subitens com **Condição** quando fizer sentido).
+- **## Investigação (se aplicável)** — o que validar antes de codar (docs, API, design system, etc.).
+- **## Requisitos de Implementação** — necessidades técnicas obrigatórias da entrega.
+- **## Critérios de Aceite** — regras testáveis (ex.: “Ao …, o sistema deve …”).
+- **## Cenário de Teste** — passos numerados para reproduzir e validar.
 
-O script usa a primeira linha de cada bloco como título da issue e o restante como descrição. O projeto da issue é o que você escolhe na lista exibida no terminal. Na seção **## Projeto / Módulo**, use **`[Nome do Projeto]`** como placeholder; o script substitui pelo nome do projeto selecionado para que o card no GitLab exiba o nome correto.
+O script usa a primeira linha de cada bloco como título da issue e o restante como descrição. Demandas antigas com **## História de Usuário** ainda funcionam para posicionamento de imagens; o formato recomendado é **## Resumo** (veja abaixo).
 
 **Várias demandas:** separe cada demanda com uma linha contendo apenas `----` (quatro hífens). O script criará uma issue por bloco. Quando houver 2 ou mais demandas, você escolhe o **responsável** e as **labels por demanda** (cada issue pode ter responsável e labels diferentes). O **milestone** é único e vale para todas as issues daquela execução.
 
@@ -203,4 +209,4 @@ Ou com a imagem na mesma pasta do `dmd.md`:
 ![Print da tela](evidencia.png)
 ```
 
-O script detecta essas referências, faz **upload** de cada arquivo no projeto GitLab (API de uploads) e **substitui** na descrição pelo link gerado pelo GitLab. A issue criada exibirá as imagens na descrição. Caminhos que forem URL (`http://` ou `https://`) são mantidos como estão; apenas arquivos locais são enviados. Se um arquivo não existir ou o upload falhar, a referência original é mantida e a criação da issue segue normalmente.
+O script detecta essas referências, faz **upload** de cada arquivo no projeto GitLab (API de uploads) e **substitui** na descrição pelo link gerado pelo GitLab. Em seguida, as imagens são **reposicionadas** logo após a seção **## Resumo** (ou, em demandas legadas, após **## História de Usuário**), para aparecerem no topo do contexto na issue. A issue criada exibirá as imagens na descrição. Caminhos que forem URL (`http://` ou `https://`) são mantidos como estão; apenas arquivos locais são enviados. Se um arquivo não existir ou o upload falhar, a referência original é mantida e a criação da issue segue normalmente.

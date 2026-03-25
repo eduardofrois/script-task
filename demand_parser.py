@@ -2,7 +2,7 @@ import re
 from typing import TypedDict
 
 _IMAGE_PATTERN = re.compile(r"!\[[^\]]*\]\([^)]+\)")
-_USER_STORY_HEADER = "## História de Usuário"
+_IMAGE_PLACEMENT_HEADERS = ("## Resumo", "## História de Usuário")
 
 
 class ParsedDemand(TypedDict):
@@ -64,23 +64,25 @@ def _extract_labels_from_text(text: str) -> list[str]:
     return labels
 
 
-def place_images_after_user_story(description: str) -> str:
+def place_images_after_context_section(description: str) -> str:
     images = _IMAGE_PATTERN.findall(description)
     if not images:
         return description
     desc_no_images = _IMAGE_PATTERN.sub("", description)
     desc_no_images = re.sub(r"\n{3,}", "\n\n", desc_no_images).strip()
-    idx = desc_no_images.find(_USER_STORY_HEADER)
-    if idx == -1:
-        return description
-    insert_start = idx + len(_USER_STORY_HEADER)
-    next_section = desc_no_images.find("\n## ", insert_start)
-    if next_section == -1:
-        insert_pos = len(desc_no_images)
-    else:
-        insert_pos = next_section
-    block = "\n\n" + "\n\n".join(images) + "\n\n"
-    return desc_no_images[:insert_pos] + block + desc_no_images[insert_pos:]
+    for header in _IMAGE_PLACEMENT_HEADERS:
+        idx = desc_no_images.find(header)
+        if idx == -1:
+            continue
+        insert_start = idx + len(header)
+        next_section = desc_no_images.find("\n## ", insert_start)
+        if next_section == -1:
+            insert_pos = len(desc_no_images)
+        else:
+            insert_pos = next_section
+        block = "\n\n" + "\n\n".join(images) + "\n\n"
+        return desc_no_images[:insert_pos] + block + desc_no_images[insert_pos:]
+    return description
 
 
 def _extract_project_from_text(text: str) -> str:

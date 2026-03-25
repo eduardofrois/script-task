@@ -6,7 +6,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import gitlab
 
-from demand_parser import parse_demand, place_images_after_user_story, split_demands
+from demand_parser import parse_demand, place_images_after_context_section, split_demands
 from gitlab_client import (
     create_issue,
     get_project_path_from_url,
@@ -320,7 +320,7 @@ def main() -> None:
             parsed = parse_demand(block)
             description = parsed["description"].replace("[Nome do Projeto]", project_name)
             description = replace_local_images_in_description(gl, project_path, description, demand_path.parent)
-            description = place_images_after_user_story(description)
+            description = place_images_after_context_section(description)
             labels = labels_per_demand[i] if labels_per_demand else None
             assignee_id = assignee_ids_per_demand[i] if i < len(assignee_ids_per_demand) else None
             issue_url = create_issue(
